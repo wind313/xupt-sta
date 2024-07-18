@@ -1,0 +1,25 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ROOT
+    url: jdbc:mysql://139.9.136.188:3306/xupt_sta?useUnicode&characterEncode=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+  redis:
+    host: 139.9.136.188
+    port: 6379
+    password: ROOT
+    database: 0
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 3136002710@qq.com
+    password: upcazldkbmcadfbf
+    protocol: smtp
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
