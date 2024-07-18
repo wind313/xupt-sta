@@ -1,6 +1,7 @@
 package com.sta.xuptsta;
 
 import com.sta.xuptsta.constant.EmailConstant;
+import com.sta.xuptsta.holder.CurrentUserIdHolder;
 import com.sta.xuptsta.service.EmailService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ class XuptStaApplicationTests {
     StringRedisTemplate redisTemplate;
     @Test
     void contextLoads() {
-        redisTemplate.delete(EmailConstant.EMAIL_CODE + "3136002710@qq.com");
+        CurrentUserIdHolder.removeCurrentUserId();
     }
 
 }

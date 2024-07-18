@@ -14,7 +14,6 @@ import com.sta.xuptsta.result.ResultCode;
 import com.sta.xuptsta.service.UserService;
 import com.sta.xuptsta.util.JWTUtil;
 import com.sta.xuptsta.util.MD5Util;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -27,13 +26,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void register(UserDTO userDTO) {
         String email = userDTO.getEmail();
+        if(email == null || email.equals("")){
+            throw new GlobalException("邮箱不能为空");
+        }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getEmail, email);
         if(this.count(queryWrapper)>0){
             throw new GlobalException("邮箱已被注册");
         }
         String code = redisTemplate.opsForValue().get(EmailConstant.EMAIL_CODE + email);
-        if(!code.equals(userDTO.getCode())){
+        if(code == null || userDTO.getCode() == null ||!code.equals(userDTO.getCode())){
             throw new GlobalException("验证码错误");
         }
         User user = new User();
@@ -45,6 +47,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public LoginVO passwordLogin(UserDTO userDTO) {
+        if(userDTO.getEmail() == null || userDTO.getEmail().equals("")){
+            throw new GlobalException("邮箱不能为空");
+        }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getEmail, userDTO.getEmail());
         User user = this.getOne(queryWrapper);
@@ -63,14 +68,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public LoginVO codeLogin(UserDTO userDTO) {
         String email = userDTO.getEmail();
+        if(email == null || email.equals("")){
+            throw new GlobalException("邮箱不能为空");
+        }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getEmail, email);
         User user = this.getOne(queryWrapper);
         if(user==null){
             throw new GlobalException("用户不存在，请注册!");
         }
-        String s = redisTemplate.opsForValue().get(EmailConstant.EMAIL_CODE + email);
-        if(!s.equals(userDTO.getCode())){
+        String code = redisTemplate.opsForValue().get(EmailConstant.EMAIL_CODE + email);
+        if(code == null || userDTO.getCode() == null ||!code.equals(userDTO.getCode())){
             throw new GlobalException("验证码错误");
         }
         LoginVO loginVO = new LoginVO();
@@ -100,14 +108,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void changePassword(UserDTO userDTO) {
         String email = userDTO.getEmail();
+        if(email == null || email.equals("")){
+            throw new GlobalException("邮箱不能为空");
+        }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getEmail, email);
         User user = this.getOne(queryWrapper);
         if(user==null){
             throw new GlobalException("用户不存在，请注册!");
         }
-        String s = redisTemplate.opsForValue().get(EmailConstant.EMAIL_CODE + email);
-        if(!s.equals(userDTO.getCode())){
+        String code = redisTemplate.opsForValue().get(EmailConstant.EMAIL_CODE + email);
+        if(code == null || userDTO.getCode() == null ||!code.equals(userDTO.getCode())){
             throw new GlobalException("验证码错误");
         }
         user.setPassword(MD5Util.md5(userDTO.getPassword()));
@@ -115,9 +126,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         redisTemplate.delete(EmailConstant.EMAIL_CODE + email);
     }
 
-    @Override
-    public void logout() {
-        CurrentUserIdHolder.removeCurrentUserId();
-    }
 
 }

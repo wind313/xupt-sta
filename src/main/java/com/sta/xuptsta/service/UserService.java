@@ -15,6 +15,4 @@ public interface UserService extends IService<User> {
     LoginVO refreshToken(String refreshToken);
 
     void changePassword(UserDTO userDTO);
-
-    void logout();
 }

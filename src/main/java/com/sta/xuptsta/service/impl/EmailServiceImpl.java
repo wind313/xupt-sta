@@ -46,10 +46,11 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private String getCode() {
-        int code = (int) (Math.random() * 1000);
+        int code = (int) (Math.random() * 10000);
         return String.format("%04d", code);
     }
 
+    @Override
     public void sendRegisterCode(String email) {
         String code = getCode();
         try {
@@ -59,6 +60,8 @@ public class EmailServiceImpl implements EmailService {
             throw new GlobalException("发送邮件失败");
         }
     }
+
+    @Override
     public void sendLoginCode(String email) {
         String code = getCode();
         try {
@@ -69,6 +72,7 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
+    @Override
     public void sendPasswordCode(String email) {
         String code = getCode();
         try {

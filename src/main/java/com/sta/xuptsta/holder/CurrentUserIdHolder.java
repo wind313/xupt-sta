@@ -10,8 +10,4 @@ public class CurrentUserIdHolder {
     public static Long getCurrentUserId() {
         return currentUserId.get();
     }
-
-    public static void removeCurrentUserId() {
-        currentUserId.remove();
-    }
 }
