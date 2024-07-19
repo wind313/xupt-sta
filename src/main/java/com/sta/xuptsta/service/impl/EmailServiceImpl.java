@@ -54,7 +54,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendRegisterCode(String email) {
         String code = getCode();
         try {
-            redisTemplate.opsForValue().set(EmailConstant.EMAIL_CODE + email, code, 15, TimeUnit.MINUTES);
+            redisTemplate.opsForValue().set(EmailConstant.EMAIL_CODE + email, code, EmailConstant.EMAIL_CODE_EXPIRE, TimeUnit.SECONDS);
             sendEmail(email, REGISTER_PREFIX + code);
         } catch (Exception e) {
             throw new GlobalException("发送邮件失败");
@@ -65,7 +65,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendLoginCode(String email) {
         String code = getCode();
         try {
-            redisTemplate.opsForValue().set(EmailConstant.EMAIL_CODE + email, code, 15, TimeUnit.MINUTES);
+            redisTemplate.opsForValue().set(EmailConstant.EMAIL_CODE + email, code, EmailConstant.EMAIL_CODE_EXPIRE, TimeUnit.SECONDS);
             sendEmail(email, LOGIN_PREFIX + code);
         } catch (Exception e) {
             throw new GlobalException("发送邮件失败");
@@ -76,7 +76,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendPasswordCode(String email) {
         String code = getCode();
         try {
-            redisTemplate.opsForValue().set(EmailConstant.EMAIL_CODE + email, code, 15, TimeUnit.MINUTES);
+            redisTemplate.opsForValue().set(EmailConstant.EMAIL_CODE + email, code, EmailConstant.EMAIL_CODE_EXPIRE, TimeUnit.SECONDS);
             sendEmail(email, PASSWORD_PREFIX + code);
         } catch (Exception e) {
             throw new GlobalException("发送邮件失败");

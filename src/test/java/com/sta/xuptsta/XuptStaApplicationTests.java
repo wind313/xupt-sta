@@ -17,7 +17,7 @@ class XuptStaApplicationTests {
     StringRedisTemplate redisTemplate;
     @Test
     void contextLoads() {
-        CurrentUserIdHolder.removeCurrentUserId();
+
     }
 
 }

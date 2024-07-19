@@ -112,7 +112,6 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.sta.xuptsta.XuptStaApplication</mainClass>
-                    <skip>true</skip>
                 </configuration>
                 <executions>
                     <execution>

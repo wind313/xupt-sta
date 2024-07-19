@@ -22,7 +22,6 @@ public class GlobalCorsConf {
         corsConfiguration.setAllowedMethods(Arrays.asList("POST","PUT","GET","OPTIONS","DELETE"));
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setMaxAge(3600L);
-
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**",corsConfiguration);
         filterFilterRegistrationBean.setFilter(new CorsFilter(urlBasedCorsConfigurationSource));
