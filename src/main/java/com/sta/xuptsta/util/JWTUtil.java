@@ -3,7 +3,6 @@ package com.sta.xuptsta.util;
 import com.sta.xuptsta.constant.JWTConstant;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
 import java.util.Date;
 
 public class JWTUtil {

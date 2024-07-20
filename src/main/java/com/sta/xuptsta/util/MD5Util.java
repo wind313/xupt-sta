@@ -1,4 +1,5 @@
 package com.sta.xuptsta.util;
+
 import org.springframework.util.DigestUtils;
 
 public class MD5Util {

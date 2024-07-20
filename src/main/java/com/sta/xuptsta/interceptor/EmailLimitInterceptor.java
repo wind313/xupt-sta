@@ -9,12 +9,15 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 /**
  * 实现HandlerInterceptor接口，用于拦截邮箱验证码的发送请求，以限制发送频率。
  */
 @Component
 public class EmailLimitInterceptor implements HandlerInterceptor {
+    private final String EMAIL_PATTERN = "^(?:(?:[^<>()\\[\\]\\\\.,;:\\s@\"]+(?:\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(?:<[^<>()\\[\\]\\\\.,;:\\s@\"]+>))@(?:(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,})$";
+    private final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 
     /**
      * 自动注入StringRedisTemplate，用于操作Redis缓存。
@@ -40,6 +43,10 @@ public class EmailLimitInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 从请求参数中获取邮箱地址
         String email = request.getParameter("email");
+        // 验证邮箱格式
+        if (!pattern.matcher(email).matches()){
+            throw new GlobalException("邮箱格式错误");
+        }
         // 构建邮箱验证码的Redis键
         String key = EmailConstant.EMAIL_CODE + email;
         // 获取键的过期时间，单位为秒

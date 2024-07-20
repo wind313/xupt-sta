@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 
 @Tag(name = "用户")
 @RestController
@@ -18,7 +19,7 @@ public class UserController {
 
     @Operation(summary = "注册", description = "注册新用户")
     @PostMapping("/register")
-    public Result register(@RequestBody UserDTO userDTO)
+    public Result register(@Valid @RequestBody UserDTO userDTO)
     {
         userService.register(userDTO);
         return Result.ok();
@@ -26,14 +27,14 @@ public class UserController {
 
     @Operation(summary = "登录", description = "使用邮箱和密码登录")
     @PostMapping("/passwordLogin")
-    public Result passwordLogin(@RequestBody UserDTO userDTO)
+    public Result passwordLogin(@Valid @RequestBody UserDTO userDTO)
     {
         return Result.ok(userService.passwordLogin(userDTO));
     }
 
     @Operation(summary = "登录", description = "使用邮箱和验证码登录")
     @PostMapping("/codeLogin")
-    public Result codeLogin(@RequestBody UserDTO userDTO)
+    public Result codeLogin(@Valid @RequestBody UserDTO userDTO)
     {
         return Result.ok(userService.codeLogin(userDTO));
     }
@@ -47,7 +48,7 @@ public class UserController {
 
     @Operation(summary = "修改密码", description = "使用验证码修改密码")
     @PutMapping("/changePassword")
-    public Result changePassword(@RequestBody UserDTO userDTO)
+    public Result changePassword(@Valid @RequestBody UserDTO userDTO)
     {
         userService.changePassword(userDTO);
         return Result.ok();
