@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  */
 @Component
 public class EmailLimitInterceptor implements HandlerInterceptor {
-    private final String EMAIL_PATTERN = "^(?:(?:[^<>()\\[\\]\\\\.,;:\\s@\"]+(?:\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(?:<[^<>()\\[\\]\\\\.,;:\\s@\"]+>))@(?:(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,})$";
+    private final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     private final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 
     /**
@@ -43,6 +43,9 @@ public class EmailLimitInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 从请求参数中获取邮箱地址
         String email = request.getParameter("email");
+        if (email == null || email.trim().length()==0){
+            throw new GlobalException("邮箱不能为空");
+        }
         // 验证邮箱格式
         if (!pattern.matcher(email).matches()){
             throw new GlobalException("邮箱格式错误");

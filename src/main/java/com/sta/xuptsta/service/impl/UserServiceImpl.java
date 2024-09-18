@@ -17,16 +17,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired
     StringRedisTemplate redisTemplate;
+
     @Override
     public void register(UserDTO userDTO) {
         String email = userDTO.getEmail();
+
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(User::getEmail, userDTO.getEmail());
+        if (this.count(queryWrapper) > 0) {
+            throw new GlobalException("用户已存在，请登录!");
+        }
+
+        if (userDTO.getPassword() == null || userDTO.getPassword().length() < 6) {
+            throw new GlobalException("密码长度不能小于6位");
+        }
+
         String code = redisTemplate.opsForValue().get(EmailConstant.EMAIL_CODE + email);
-        if(code == null || userDTO.getCode() == null ||!code.equals(userDTO.getCode())){
+        if (code == null || userDTO.getCode() == null || !code.equals(userDTO.getCode())) {
             throw new GlobalException("验证码错误");
         }
         User user = new User();
@@ -41,10 +55,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getEmail, userDTO.getEmail());
         User user = this.getOne(queryWrapper);
-        if(user==null){
+        if (user == null) {
             throw new GlobalException("用户不存在，请注册!");
         }
-        if(!user.getPassword().equals(MD5Util.md5(userDTO.getPassword()))){
+        if (userDTO.getPassword() == null || userDTO.getPassword().length() < 6) {
+            throw new GlobalException("密码长度不能小于6位");
+        }
+        if (!user.getPassword().equals(MD5Util.md5(userDTO.getPassword()))) {
             throw new GlobalException("邮箱或密码错误");
         }
         LoginVO loginVO = new LoginVO();
@@ -59,11 +76,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getEmail, email);
         User user = this.getOne(queryWrapper);
-        if(user==null){
+        if (user == null) {
             throw new GlobalException("用户不存在，请注册!");
         }
         String code = redisTemplate.opsForValue().get(EmailConstant.EMAIL_CODE + email);
-        if(code == null || userDTO.getCode() == null ||!code.equals(userDTO.getCode())){
+        if (code == null || userDTO.getCode() == null || !code.equals(userDTO.getCode())) {
             throw new GlobalException("验证码错误");
         }
         LoginVO loginVO = new LoginVO();
@@ -76,7 +93,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public LoginVO refreshToken(String refreshToken) {
         try {
-            if(!JWTUtil.checkToken(refreshToken)){
+            if (!JWTUtil.checkToken(refreshToken)) {
                 throw new GlobalException(ResultCode.NOT_LOGIN);
             }
             Long userId = JWTUtil.getUserId(refreshToken);
@@ -84,8 +101,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             loginVO.setAuthorization(JWTUtil.createToken(userId, JWTConstant.JWT_SHORT_EXPIRE));
             loginVO.setRefreshToken(JWTUtil.createToken(userId, JWTConstant.JWT_LONG_EXPIRE));
             return loginVO;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new GlobalException(ResultCode.NOT_LOGIN);
         }
     }
@@ -96,14 +112,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getEmail, email);
         User user = this.getOne(queryWrapper);
-        if(user==null){
+        if (user == null) {
             throw new GlobalException("用户不存在，请注册!");
         }
+        if (userDTO.getPassword() == null || userDTO.getPassword().length() < 6) {
+            throw new GlobalException("密码长度不能小于6位");
+        }
         String code = redisTemplate.opsForValue().get(EmailConstant.EMAIL_CODE + email);
-        if(code == null || userDTO.getCode() == null ||!code.equals(userDTO.getCode())){
+        if (code == null || userDTO.getCode() == null || !code.equals(userDTO.getCode())) {
             throw new GlobalException("验证码错误");
         }
         user.setPassword(MD5Util.md5(userDTO.getPassword()));
+        user.setUpdateTime(LocalDateTime.now());
         this.updateById(user);
         redisTemplate.delete(EmailConstant.EMAIL_CODE + email);
     }

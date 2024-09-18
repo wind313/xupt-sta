@@ -3,8 +3,11 @@ package com.sta.xuptsta.exception;
 import com.sta.xuptsta.result.Result;
 import com.sta.xuptsta.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import javax.validation.ConstraintViolationException;
 import java.lang.reflect.UndeclaredThrowableException;
 
 @Slf4j
@@ -24,6 +27,7 @@ public class GlobalExceptionHandler {
         }
         else {
             log.error("message:" + e.getMessage());
+            e.printStackTrace();
             return Result.error(ResultCode.FAIL);
         }
     }

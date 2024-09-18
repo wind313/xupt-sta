@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import javax.validation.constraints.NotBlank;
 
 @Tag(name = "邮件")
 @RequestMapping("/email")
@@ -21,7 +20,7 @@ public class EmailController {
 
     @Operation(summary = "注册邮件", description = "发送注册的验证码邮件")
     @PostMapping("/register")
-    public Result sendRegisterCode( @NotBlank(message = "邮箱不能为空") @RequestParam("email") String email)
+    public Result sendRegisterCode(@RequestParam("email") String email)
     {
         emailService.sendRegisterCode(email);
         return Result.ok();
@@ -29,7 +28,7 @@ public class EmailController {
 
     @Operation(summary = "登录邮件", description = "发送登录的验证码邮件")
     @PostMapping("/login")
-    public Result sendLoginCode(@NotBlank(message = "邮箱不能为空") @RequestParam("email") String email)
+    public Result sendLoginCode(@RequestParam("email") String email)
     {
         emailService.sendLoginCode(email);
         return Result.ok();
@@ -37,7 +36,7 @@ public class EmailController {
 
     @Operation(summary = "密码邮件", description = "发送修改密码的验证码邮件")
     @PostMapping("/password")
-    public Result sendPasswordCode(@NotBlank(message = "邮箱不能为空") @RequestParam("email") String email)
+    public Result sendPasswordCode(@RequestParam("email") String email)
     {
         emailService.sendPasswordCode(email);
         return Result.ok();

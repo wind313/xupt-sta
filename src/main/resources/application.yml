@@ -17,6 +17,12 @@ spring:
     username: 3136002710@qq.com
     password: upcazldkbmcadfbf
     protocol: smtp
+  rabbitmq:
+    username: yjc
+    password: ROOT
+    virtual-host: /yjc
+    host: 139.9.136.188
+    port: 5672
   properties:
     mail:
       smtp:

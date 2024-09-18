@@ -1,8 +1,10 @@
 package com.sta.xuptsta.result;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public enum ResultCode {
     SUCCESS(200, "成功"),
     FAIL(400, "系统繁忙"),
@@ -11,13 +13,4 @@ public enum ResultCode {
 
     private int code;
     private String message;
-
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }
