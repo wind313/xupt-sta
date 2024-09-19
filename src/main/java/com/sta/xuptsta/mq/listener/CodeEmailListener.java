@@ -3,7 +3,6 @@ package com.sta.xuptsta.mq.listener;
 import com.sta.xuptsta.constant.EmailConstant;
 import com.sta.xuptsta.exception.GlobalException;
 import com.sta.xuptsta.mq.model.CodeMessage;
-import com.sta.xuptsta.util.EmailUtil;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;

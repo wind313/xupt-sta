@@ -53,16 +53,14 @@
 <body>
 <div class="email-container">
 
-    <div class="email-header">验证码</div>
+    <div class="email-header">恭喜您通过初次面试，请预约二面时间！</div>
 
     <div class="email-content">
-        <p>同学你好，</p>
-        <p>你的验证码是：</p>
-        <div class="verification-code" th:text="${code}"></div>
-        <p>请在15分钟内使用此验证码修改密码。</p>
-        <p>你正在修改密码，请勿将此邮件发送给其他人。</p>
-        <p>此邮件由西邮软件科技协会官方发送，请勿回复。</p>
-        <p>如果你没有进行此操作，请忽略此邮件。</p>
+        <p th:text="${name}+'同学你好，'"></p>
+        <p>感谢你对软件科技协会的兴趣！非常高兴地通知你，你已经顺利通过了面试。</p>
+        <p>请xx日xx:xx准时在逸夫楼FF106参加会议。</p>
+        <p>如果你有任何疑问，欢迎随时在纳新群中联系客服。</p>
+        <p>欢迎你的加入！</p>
     </div>
 
     <div class="email-footer"><p>西邮软件科技协会(●'◡'●)</p>
