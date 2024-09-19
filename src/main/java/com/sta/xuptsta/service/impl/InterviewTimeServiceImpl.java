@@ -27,8 +27,7 @@ public class InterviewTimeServiceImpl extends ServiceImpl<InterviewTimeMapper, I
         List<InterviewTimeVO> collect = list.stream().map(time -> {
             InterviewTimeVO timeVO = new InterviewTimeVO();
             timeVO.setId(time.getId());
-            timeVO.setStartTime(LocalDateTimeFormatter.dateTimeToString(time.getStartTime()));
-            timeVO.setEndTime(LocalDateTimeFormatter.dateTimeToString(time.getEndTime()));
+            timeVO.setTime(LocalDateTimeFormatter.startDateTimeToString(time.getStartTime())+"-"+LocalDateTimeFormatter.endDateTimeToString(time.getEndTime()));
             return timeVO;
         }).collect(Collectors.toList());
 
