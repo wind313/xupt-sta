@@ -11,7 +11,6 @@ public class EmailProvider {
 
     private static final String EMAIL_EXCHANGE = "xupt-sta";
     private static final String EMAIL_ROUTING_KEY = "xupt-sta-email";
-
     @Autowired
     private RabbitTemplate rabbitTemplate;
 

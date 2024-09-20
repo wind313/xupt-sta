@@ -17,7 +17,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -117,6 +116,7 @@ public class InformEmail {
                 mimeMessageHelper.setTo(student.getEmail());
                 mimeMessageHelper.setFrom(from);
                 javaMailSender.send(mailMessage);
+                Thread.sleep(6000);
 
             } catch (Exception e) {
                 throw new GlobalException(student.getName()+" "+student.getEmail()+"发送失败!");

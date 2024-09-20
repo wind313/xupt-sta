@@ -16,7 +16,6 @@ spring:
     port: 587
     username: 3136002710@qq.com
     password: upcazldkbmcadfbf
-    protocol: smtp
   rabbitmq:
     username: yjc
     password: ROOT
