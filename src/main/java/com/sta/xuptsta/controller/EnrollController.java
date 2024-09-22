@@ -21,7 +21,7 @@ public class EnrollController {
 
     @PostMapping("/add")
     @Operation(summary = "报名", description = "填写报名信息")
-    public Result add(@Valid @RequestBody EnrollDTO enrollDto) {
+    public Result add(@Valid @RequestBody EnrollDTO enrollDto){
         enrollService.add(enrollDto);
         return Result.ok();
     }

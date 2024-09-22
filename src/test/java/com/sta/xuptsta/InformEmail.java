@@ -75,8 +75,9 @@ public class InformEmail {
                 mimeMessageHelper.setFrom(from);
                 javaMailSender.send(mailMessage);
                 log.warn(student.getName()+" "+student.getEmail()+"发送成功!");
-
+                Thread.sleep(6000);
             } catch (Exception e) {
+                e.printStackTrace();
                 throw new GlobalException(student.getName()+" "+student.getEmail()+"发送失败!");
             }
 
@@ -116,6 +117,7 @@ public class InformEmail {
                 mimeMessageHelper.setTo(student.getEmail());
                 mimeMessageHelper.setFrom(from);
                 javaMailSender.send(mailMessage);
+                log.warn(student.getName()+" "+student.getEmail()+"发送成功!");
                 Thread.sleep(6000);
 
             } catch (Exception e) {
@@ -123,5 +125,31 @@ public class InformEmail {
             }
 
         }
+    }
+    @Test
+    public void sendFail(){
+
+        try{
+            for (int i=0;i<10;i++){
+                Context context = new Context();
+                context.setVariable("name","张三");
+                String content = templateEngine.process(firstEmailName, context);
+
+                MimeMessage mailMessage = javaMailSender.createMimeMessage();
+                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mailMessage, true, "UTF-8");
+                mimeMessageHelper.setSubject(SUBJECT);
+                mimeMessageHelper.setText(content, true);
+                mimeMessageHelper.setTo("3136002710@qq.com");
+                mimeMessageHelper.setFrom(from);
+                javaMailSender.send(mailMessage);
+                log.warn("张三"+" "+"3136002710@qq.com"+"发送成功!");
+                Thread.sleep(6000);
+            }
+
+        }
+        catch (Exception e){
+            throw new GlobalException("发送邮件失败");
+        }
+
     }
 }

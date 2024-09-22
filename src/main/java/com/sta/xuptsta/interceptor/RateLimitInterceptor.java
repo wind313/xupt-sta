@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class RateLimitInterceptor implements HandlerInterceptor {
-    RateLimiter rateLimiter = RateLimiter.create(15);
+    RateLimiter rateLimiter = RateLimiter.create(50);
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if(rateLimiter.tryAcquire()){
             return true;

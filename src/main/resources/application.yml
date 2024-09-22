@@ -5,22 +5,32 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: ROOT
-    url: jdbc:mysql://139.9.136.188:3306/xupt_sta?useUnicode&characterEncode=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/xupt_sta?useUnicode&characterEncode=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
   redis:
-    host: 139.9.136.188
+    host: localhost
     port: 6379
-    password: ROOT
+    password:
     database: 0
   mail:
     host: smtp.qq.com
-    port: 587
-    username: 3136002710@qq.com
-    password: upcazldkbmcadfbf
+    port: 465
+    username:
+    password:
+    protocol: smtps
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
   rabbitmq:
-    username: yjc
-    password: ROOT
-    virtual-host: /yjc
-    host: 139.9.136.188
+    username:
+    password:
+    virtual-host:
+    host: localhost
     port: 5672
   properties:
     mail:
