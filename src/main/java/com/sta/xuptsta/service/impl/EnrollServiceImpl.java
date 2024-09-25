@@ -137,9 +137,36 @@ public class EnrollServiceImpl extends ServiceImpl<EnrollMapper, Enroll> impleme
         EnrollVO enrollVO = new EnrollVO();
         Enroll enroll = this.getOne(queryWrapper);
         if(enroll == null){
-            throw new GlobalException("未报名！");
+            return null;
         }
         BeanUtils.copyProperties(enroll, enrollVO);
+        switch (enroll.getStatus()){
+            case 0:
+                enrollVO.setStatus(EnrollStatusCode.UN_ENROLLED.getCode());
+                enrollVO.setMessage(EnrollStatusCode.UN_ENROLLED.getMessage());
+                break;
+            case 1:
+                enrollVO.setStatus(EnrollStatusCode.ENROLLED.getCode());
+                enrollVO.setMessage(EnrollStatusCode.ENROLLED.getMessage());
+                break;
+            case 2:
+                enrollVO.setStatus(EnrollStatusCode.FIRST_PASS.getCode());
+                enrollVO.setMessage(EnrollStatusCode.FIRST_PASS.getMessage());
+                break;
+            case 3:
+                enrollVO.setStatus(EnrollStatusCode.SECOND_PASS.getCode());
+                enrollVO.setMessage(EnrollStatusCode.SECOND_PASS.getMessage());
+               break;
+            case 4:
+                enrollVO.setStatus(EnrollStatusCode.FIRST_Fail.getCode());
+                enrollVO.setMessage(EnrollStatusCode.FIRST_Fail.getMessage());
+                break;
+            case 5:
+                enrollVO.setStatus(EnrollStatusCode.SECOND_FAIL.getCode());
+                enrollVO.setMessage(EnrollStatusCode.SECOND_FAIL.getMessage());
+                break;
+
+        }
         return enrollVO;
     }
 

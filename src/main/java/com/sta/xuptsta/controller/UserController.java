@@ -1,6 +1,8 @@
 package com.sta.xuptsta.controller;
 
+import com.sta.xuptsta.pojo.dto.UserCodeDTO;
 import com.sta.xuptsta.pojo.dto.UserDTO;
+import com.sta.xuptsta.pojo.dto.UserPasswordDTO;
 import com.sta.xuptsta.result.Result;
 import com.sta.xuptsta.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,14 +29,14 @@ public class UserController {
 
     @Operation(summary = "登录", description = "使用邮箱和密码登录")
     @PostMapping("/passwordLogin")
-    public Result passwordLogin(@Valid @RequestBody UserDTO userDTO)
+    public Result passwordLogin(@Valid @RequestBody UserPasswordDTO userDTO)
     {
         return Result.ok(userService.passwordLogin(userDTO));
     }
 
     @Operation(summary = "登录", description = "使用邮箱和验证码登录")
     @PostMapping("/codeLogin")
-    public Result codeLogin(@Valid @RequestBody UserDTO userDTO)
+    public Result codeLogin(@Valid @RequestBody UserCodeDTO userDTO)
     {
         return Result.ok(userService.codeLogin(userDTO));
     }

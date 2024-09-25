@@ -6,7 +6,9 @@ import com.sta.xuptsta.constant.EmailConstant;
 import com.sta.xuptsta.constant.JWTConstant;
 import com.sta.xuptsta.exception.GlobalException;
 import com.sta.xuptsta.mapper.UserMapper;
+import com.sta.xuptsta.pojo.dto.UserCodeDTO;
 import com.sta.xuptsta.pojo.dto.UserDTO;
+import com.sta.xuptsta.pojo.dto.UserPasswordDTO;
 import com.sta.xuptsta.pojo.entity.User;
 import com.sta.xuptsta.pojo.vo.LoginVO;
 import com.sta.xuptsta.result.ResultCode;
@@ -51,7 +53,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public LoginVO passwordLogin(UserDTO userDTO) {
+    public LoginVO passwordLogin(UserPasswordDTO userDTO) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getEmail, userDTO.getEmail());
         User user = this.getOne(queryWrapper);
@@ -71,7 +73,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public LoginVO codeLogin(UserDTO userDTO) {
+    public LoginVO codeLogin(UserCodeDTO userDTO) {
         String email = userDTO.getEmail();
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getEmail, email);
